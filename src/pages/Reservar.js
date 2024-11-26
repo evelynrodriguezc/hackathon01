@@ -114,7 +114,12 @@ const Reservar = () => {
       id: "cardHabitacion1",
       titulo: "Sala Space",
       descripcion:
-        "Una sala sencilla y funcional, diseñada para fomentar el trabajo colaborativo. Cuenta con una mesa amplia de madera, cómodas sillas ergonómicas y una excelente iluminación natural gracias a sus ventanales de piso a techo. Ideal para reuniones sin tecnología o trabajos enfocados en papel o discusión.",
+      <ul>
+        <li>Sala funcional para trabajo colaborativo</li>
+        <li>Mesa de madera y sillas ergonómicas</li>
+        <li>Iluminación natural con ventanales amplios</li>
+        <li>Ideal para reuniones sin tecnología o discusiones</li>
+      </ul>,
       capacidad: "7-10 personas",
       
       imagen: "images/space.png",
@@ -123,7 +128,13 @@ const Reservar = () => {
       id: "cardHabitacion2",
       titulo: "Sala Focus",
       descripcion:
-        "Un espacio diseñado para la concentración y el brainstorming. Equipada con un video beam y una pizarra blanca de gran tamaño para anotar ideas. Las paredes tienen paneles insonorizados para reducir el ruido externo, y la iluminación es ajustable para mayor comodidad. Los asientos son modulares, lo que permite configuraciones flexibles según las necesidades del grupo.",
+      <ul>
+        <li>Espacio diseñado para la concentración y el brainstorming.</li>
+        <li>Equipada con un video beam y una pizarra blanca de gran tamaño para anotar ideas.</li>
+        <li>Paredes con paneles insonorizados para reducir el ruido externo.</li>
+        <li>Iluminación ajustable para mayor comodidad.</li>
+        <li>Asientos modulares que permiten configuraciones flexibles según las necesidades del grupo.</li>
+      </ul>,
       capacidad: "5-8 personas",
       
       imagen: "images/focus.png",
@@ -132,7 +143,13 @@ const Reservar = () => {
       id: "cardHabitacion3",
       titulo: "Sala Horizon",
       descripcion:
-        "Una sala premium pensada para grandes reuniones o talleres. Cuenta con una mesa ovalada moderna, un televisor 4K de 75 pulgadas para presentaciones, y un sistema de videoconferencia de última generación. Además, tiene estaciones de carga para dispositivos y una cafetera integrada para mantener a todos energizados. Los tonos cálidos en la decoración brindan un ambiente acogedor y profesional.",
+      <ul>
+        <li>Diseñada para concentración y brainstorming.</li>
+        <li>Incluye video beam y pizarra blanca grande.</li>
+        <li>Paredes insonorizadas para reducir ruido.</li>
+        <li>Iluminación ajustable para comodidad.</li>
+        <li>Asientos modulares y configurables.</li>
+    </ul>,
       capacidad: "12-15 personas",
       
       imagen: "images/horizon.png",
@@ -141,7 +158,13 @@ const Reservar = () => {
       id: "cardHabitacion4",
       titulo: "Sala Nexus",
       descripcion:
-        "Perfecta para sesiones creativas y colaborativas. Cuenta con un sistema interactivo de pantalla táctil y un video beam ultramoderno. Tiene paredes de vidrio para escribir con marcadores especiales y sofás modulares que se pueden mover según las necesidades del equipo. Incluye iluminación LED personalizable que se adapta al ambiente deseado (frío para enfoque, cálido para lluvia de ideas).",
+      <ul>
+        <li>Para concentración y brainstorming.</li>
+        <li>Con video beam y pizarra grande.</li>
+        <li>Paredes insonorizadas.</li>
+        <li>Iluminación ajustable.</li>
+        <li>Asientos modulares.</li>
+      </ul>,
       capacidad: "8-12 personas",
       
       imagen: "images/nexxus.png",
@@ -150,7 +173,14 @@ const Reservar = () => {
       id: "cardHabitacion5",
       titulo: "Sala Innovate",
       descripcion:
-        "Un espacio futurista para eventos, talleres y reuniones de alto impacto. Equipada con un proyector láser de alta definición y sonido envolvente. Las mesas y sillas son ajustables y plegables, permitiendo configuraciones tipo aula, en círculo o abiertas. También cuenta con un sistema de realidad virtual opcional para presentaciones inmersivas y una zona de descanso con pufs y una barra de snacks saludable.",
+      <ul>
+        <li>Sala premium para reuniones o talleres.</li>
+        <li>Mesa ovalada moderna.</li>
+        <li>Televisor 4K de 75 pulgadas.</li>
+        <li>Sistema de videoconferencia avanzado.</li>
+        <li>Estaciones de carga y cafetera integrada.</li>
+        <li>Decoración con tonos cálidos y profesional.</li>
+      </ul>,
       capacidad: "10-20 personas",
       
       imagen: "images/innovate.png",
