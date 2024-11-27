@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 
-
 const Admin = () => {
-  const [reservas, setReservas] = useState([]);
+  // Definir el estado para las reservas y el modal (si lo necesitas)
+  const [reservas, setReservas] = useState([]); // Para manejar las reservas
+  const [showModal, setShowModal] = useState(false); // Para mostrar u ocultar el modal si es necesario
 
   // Cargar reservas desde localStorage
   useEffect(() => {
@@ -47,6 +48,54 @@ const Admin = () => {
       )
     );
     localStorage.setItem(id, JSON.stringify(reservaModificada));
+  };
+
+  const handleReprogramar = (reserva) => {
+    // Solicitar nueva fecha y hora de entrada y salida
+    const nuevaFechaEntrada = prompt("Ingresa la nueva fecha y hora de entrada (DD-MM-YYYY):");
+    const nuevaFechaSalida = prompt("Ingresa la nueva fecha y hora de salida (DD-MM-YYYY):");
+
+    // Verificar que las fechas estén en el formato correcto (DD-MM-YYYY)
+    const partesEntrada = nuevaFechaEntrada.split("-");
+    const partesSalida = nuevaFechaSalida.split("-");
+
+    if (partesEntrada.length === 3 && partesSalida.length === 3) {
+      const [diaEntrada, mesEntrada, anioEntrada] = partesEntrada;
+      const [diaSalida, mesSalida, anioSalida] = partesSalida;
+
+      // Crear objetos de fecha para la entrada y salida
+      const fechaEntrada = new Date(anioEntrada, mesEntrada - 1, diaEntrada);  // Mes es 0-indexado en JavaScript
+      const fechaSalida = new Date(anioSalida, mesSalida - 1, diaSalida);
+
+      // Verificar si ambas fechas son válidas
+      if (!isNaN(fechaEntrada) && !isNaN(fechaSalida)) {
+        // Convertir fechas a formato YYYY-MM-DD
+        const nuevaFechaEntradaFormateada = fechaEntrada.toISOString().split('T')[0];
+        const nuevaFechaSalidaFormateada = fechaSalida.toISOString().split('T')[0];
+
+        // Crear reserva modificada
+        const reservaModificada = {
+          ...reserva,
+          fechaHoraEntrada: nuevaFechaEntradaFormateada,
+          fechaHoraSalida: nuevaFechaSalidaFormateada,
+        };
+
+        // Actualizar estado y localStorage
+        setReservas((prev) =>
+          prev.map((r) =>
+            r.habitacion === reserva.habitacion ? { ...r, reserva: reservaModificada } : r
+          )
+        );
+        localStorage.setItem(reserva.habitacion, JSON.stringify(reservaModificada));
+
+        alert(`La reserva ha sido reprogramada para la habitación: ${reserva.habitacion}`);
+        setShowModal(false); // Cerrar modal o ventana de reprogramación
+      } else {
+        alert("Una de las fechas ingresadas no es válida. Usa el formato DD-MM-YYYY.");
+      }
+    } else {
+      alert("El formato de las fechas ingresadas no es válido. Usa DD-MM-YYYY.");
+    }
   };
 
   return (
@@ -100,4 +149,4 @@ const Admin = () => {
   );
 };
 
-export default Admin
+export default Admin;

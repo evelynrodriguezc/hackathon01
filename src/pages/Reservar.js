@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-
 const Reservar = () => {
   const [estadoHabitaciones, setEstadoHabitaciones] = useState({
     cardHabitacion1: "disponible",
@@ -9,15 +8,27 @@ const Reservar = () => {
     cardHabitacion4: "disponible",
     cardHabitacion5: "disponible",
   });
+  const [mensaje, setMensaje] = useState(""); // Nuevo estado para el mensaje
+  const [reservasExistentes, setReservasExistentes] = useState([]); // Estado para las reservas
 
   useEffect(() => {
-    const habitaciones = ["cardHabitacion1", "cardHabitacion2", "cardHabitacion3", "cardHabitacion4", "cardHabitacion5: "];
+    const habitaciones = ["cardHabitacion1", "cardHabitacion2", "cardHabitacion3", "cardHabitacion4", "cardHabitacion5"];
     const estadoGuardado = {};
     habitaciones.forEach((habitacion) => {
       const estado = localStorage.getItem(habitacion) || "disponible";
       estadoGuardado[habitacion] = estado;
     });
     setEstadoHabitaciones(estadoGuardado);
+
+    // Obtener las reservas de localStorage
+    const reservas = [];
+    habitaciones.forEach((habitacion) => {
+      const reserva = JSON.parse(localStorage.getItem(habitacion));
+      if (reserva) {
+        reservas.push({ ...reserva, habitacion });
+      }
+    });
+    setReservasExistentes(reservas);
   }, []);
 
   const mostrarFormularioReserva = (cardId) => {
@@ -37,14 +48,33 @@ const Reservar = () => {
       fechaHoraEntrada: formData.get("fechaHoraEntrada"),
       fechaHoraSalida: formData.get("fechaHoraSalida"),
     };
-  
+
+    // Verificar que no haya una reserva en el mismo horario
+    const horaEntrada = reserva.fechaHoraEntrada;
+    const conflicto = reservasExistentes.some(
+      (reservaExistente) =>
+        reservaExistente.habitacion === cardId &&
+        (horaEntrada >= reservaExistente.fechaHoraEntrada && horaEntrada <= reservaExistente.fechaHoraSalida)
+    );
+
+    if (conflicto) {
+      alert("La habitación ya está reservada para esa fecha y hora.");
+      return;
+    }
+
     localStorage.setItem(cardId, JSON.stringify(reserva));
     setEstadoHabitaciones((prev) => ({
       ...prev,
       [cardId]: "reservada",
     }));
+
+    // Agregar la nueva reserva a las reservas existentes
+    setReservasExistentes((prev) => [...prev, { ...reserva, habitacion: cardId }]);
+
+    // Mostrar mensaje de "Reserva enviada"
+    setMensaje("Reserva enviada");
+    setTimeout(() => setMensaje(""), 5000); // El mensaje desaparece después de 5 segundos
   };
-  
 
   const renderFormulario = (cardId) => {
     return (
@@ -63,7 +93,7 @@ const Reservar = () => {
             name="nombre"
             required
           />
-  
+
           <label htmlFor="apellido">Apellidos:</label>
           <input
             type="text"
@@ -72,7 +102,7 @@ const Reservar = () => {
             name="apellido"
             required
           />
-  
+
           <label htmlFor="documento">Documento:</label>
           <input
             type="text"
@@ -81,7 +111,7 @@ const Reservar = () => {
             name="documento"
             required
           />
-  
+
           <label htmlFor="fechaHoraEntrada">Fecha y Hora de Ingreso:</label>
           <input
             type="datetime-local"
@@ -90,7 +120,7 @@ const Reservar = () => {
             name="fechaHoraEntrada"
             required
           />
-  
+
           <label htmlFor="fechaHoraSalida">Fecha y Hora de Salida:</label>
           <input
             type="datetime-local"
@@ -99,15 +129,15 @@ const Reservar = () => {
             name="fechaHoraSalida"
             required
           />
-  
+
           <button type="submit" className="btn btn-primary mt-2">
             Confirmar Reserva
           </button>
         </form>
+        {mensaje && <div className="alert alert-success mt-2">{mensaje}</div>}
       </div>
     );
   };
-  
 
   const habitaciones = [
     {
@@ -121,7 +151,6 @@ const Reservar = () => {
         <li>Ideal para reuniones sin tecnología o discusiones</li>
       </ul>,
       capacidad: "7-10 personas",
-      
       imagen: "images/space.png",
     },
     {
@@ -136,7 +165,6 @@ const Reservar = () => {
         <li>Asientos modulares que permiten configuraciones flexibles según las necesidades del grupo.</li>
       </ul>,
       capacidad: "5-8 personas",
-      
       imagen: "images/focus.png",
     },
     {
@@ -149,9 +177,8 @@ const Reservar = () => {
         <li>Paredes insonorizadas para reducir ruido.</li>
         <li>Iluminación ajustable para comodidad.</li>
         <li>Asientos modulares y configurables.</li>
-    </ul>,
+      </ul>,
       capacidad: "12-15 personas",
-      
       imagen: "images/horizon.png",
     },
     {
@@ -166,7 +193,6 @@ const Reservar = () => {
         <li>Asientos modulares.</li>
       </ul>,
       capacidad: "8-12 personas",
-      
       imagen: "images/nexxus.png",
     },
     {
@@ -182,18 +208,15 @@ const Reservar = () => {
         <li>Decoración con tonos cálidos y profesional.</li>
       </ul>,
       capacidad: "10-20 personas",
-      
       imagen: "images/innovate.png",
     },
   ];
 
   return (
     <div>
-  {/* Título centrado con espacio antes de las habitaciones */}
-  <div className="zonaReserva">
-    <h1>Zona De Reserva</h1>
-  </div>
-      
+      <div className="zonaReserva">
+        <h1>Zona De Reserva</h1>
+      </div>
 
       <main>
         {habitaciones.map((habitacion) => (
@@ -207,21 +230,14 @@ const Reservar = () => {
                   <h5 className="card-title">{habitacion.titulo}</h5>
                   <p className="card-text">{habitacion.descripcion}</p>
                   <p className="card-text">
-                    <small className="text-body-secondary">
-                      Capacidad: {habitacion.capacidad}
-                      
-                      
-                    </small>
-                  </p>
-                  <p className={`estado-habitacion ${estadoHabitaciones[habitacion.id] === "disponible" ? "text-success" : "text-success"}`}>
-                    {estadoHabitaciones[habitacion.id] === "disponible" ? "Disponible" : "Disponible"}
+                    <small className="text-muted">{habitacion.capacidad}</small>
                   </p>
                   <button
-                    type="button"
-                    className={`btn ${estadoHabitaciones[habitacion.id] === "disponible" ? "btn-success" : "btn-warning"}`}
+                    className="btn btn-outline-primary"
                     onClick={() => mostrarFormularioReserva(habitacion.id)}
+                    disabled={estadoHabitaciones[habitacion.id] === "reservada"}
                   >
-                    {estadoHabitaciones[habitacion.id] === "disponible" ? "Reservar" : "Reservando"}
+                    {estadoHabitaciones[habitacion.id] === "reservada" ? "Reservada" : "Reservar"}
                   </button>
                   {renderFormulario(habitacion.id)}
                 </div>
