@@ -478,15 +478,14 @@ body {
   }
   
   /* Estructura general */
-.login-container {
+  .login-container {
     display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 20px;
-    background-color: #ffffff; /* Fondo oscuro */
-    color: #ffffff; /* Texto blanco */
-    border-radius: 10px;
-}
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffffff; /* Fondo claro opcional */
+    color:#fff
+  }
 
 /* Columnas del formulario */
 .login-column {
@@ -670,5 +669,20 @@ footer {
   .custom-btn:hover {
     background-color: #333; /* Fondo negro oscuro al pasar el ratón */
   }
+
+
+
+  .toggle-login-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+  }
   
-    
+  .toggle-login-button:hover {
+    background-color: #45a049;
+  }
+  
