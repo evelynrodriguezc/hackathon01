@@ -136,7 +136,7 @@ const Reservar = () => {
         <li>Asientos modulares que permiten configuraciones flexibles según las necesidades del grupo.</li>
       </ul>,
       capacidad: "5-8 personas",
-      
+
       imagen: "images/focus.png",
     },
     {
